@@ -4,7 +4,7 @@
 - Practical: Середовище для розробки
 
 docker --version
-Docker version 24.0.5, build 123456
+Docker version 29.2.1, build a5c7197
 
 docker compose version
 Docker Compose version v2.22.0
