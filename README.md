@@ -1,1 +1,4 @@
-# hlpf-env-setup
+## Student
+- Name: Роман Ковач
+- Group: <Ваша група>
+- Practical: Environment Setup
