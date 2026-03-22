@@ -1,20 +1,60 @@
 ## Student
-- Name: Ковач Роман Романович
+- Name: Роман Ковач
 - Group: 232/2
-- Practical: Середовище для розробки
 
-docker --version
-Docker version 29.2.1, build a5c7197
+## Практичне заняття №2 — NestJS + PostgreSQL + Redis
 
-docker compose version
-Docker Compose version v2.22.0
+## Структура репозиторію
 
-docker run --rm hello-world
-Hello from Docker!
-This message shows that your installation appears to be working correctly.
+.
+├── src/               # NestJS source code
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+└── README.md
 
-docker compose run --rm npm npm -v
-11.11.0
+## Запуск проекту
+```bash
+cp .env.example .env   
+docker compose up --build
 
-docker compose run --rm npm node --version
-v25.8.0
+##Перевірка сервісів
+PS C:\Users\Roman\Projects\hlpf-env-setup> docker compose ps
+NAME                        IMAGE                COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+hlpf-env-setup-app-1        hlpf-env-setup-app   "docker-entrypoint.s…"   app        12 minutes ago   Up 10 minutes             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+hlpf-env-setup-postgres-1   postgres:16-alpine   "docker-entrypoint.s…"   postgres   22 minutes ago   Up 22 minutes (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+hlpf-env-setup-redis-1      redis:7-alpine       "docker-entrypoint.s…"   redis      22 minutes ago   Up 22 minutes (healthy)   0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+PS C:\Users\Roman\Projects\hlpf-env-setup>
+
+## Перевірка PostgreSQL
+PS C:\Users\Roman\Projects\hlpf-env-setup> docker compose exec postgres psql -U nestuser -d nestdb -c "\l"
+                                                      List of databases
+   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules |   Access privileges
+-----------+----------+----------+-----------------+------------+------------+------------+-----------+-----------------------
+ nestdb    | nestuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           |
+ postgres  | nestuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           |
+ template0 | nestuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/nestuser          +
+           |          |          |                 |            |            |            |           | nestuser=CTc/nestuser
+ template1 | nestuser | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/nestuser          +
+           |          |          |                 |            |            |            |           | nestuser=CTc/nestuser
+(4 rows)
+
+## Перевірка Redis
+PS C:\Users\Roman\Projects\hlpf-env-setup> docker compose exec redis redis-cli ping
+PONG
+
+## Перевірка застосунку
+PS C:\Users\Roman\Projects\hlpf-env-setup> irm http://localhost:3000
+Hello World!
+
+## Логи NestJS (фрагмент)
+app-1  | [Nest] 29  - 03/22/2026, 5:09:24 PM     LOG [NestFactory] Starting Nest application...
+app-1  | [Nest] 29  - 03/22/2026, 5:09:24 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +129ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:24 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +1ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:24 PM     LOG [InstanceLoader] AppModule dependencies initialized +0ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:24 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:25 PM     LOG [InstanceLoader] CacheModule dependencies initialized +28ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:25 PM     LOG [InstanceLoader] TypeOrmCoreModule dependencies initialized +72ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:25 PM     LOG [RoutesResolver] AppController {/}: +10ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:25 PM     LOG [RouterExplorer] Mapped {/, GET} route +9ms
+app-1  | [Nest] 29  - 03/22/2026, 5:09:25 PM     LOG [NestApplication] Nest application successfully started +5ms
