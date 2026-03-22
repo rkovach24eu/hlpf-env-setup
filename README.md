@@ -10,15 +10,14 @@
 ├── src/               # NestJS source code
 ├── Dockerfile
 ├── docker-compose.yml
-├── .env.example
+├── .env.example       # шаблон змінних оточення
 └── README.md
 
 ## Запуск проекту
-```bash
 cp .env.example .env   
 docker compose up --build
 
-##Перевірка сервісів
+## Перевірка сервісів
 PS C:\Users\Roman\Projects\hlpf-env-setup> docker compose ps
 NAME                        IMAGE                COMMAND                  SERVICE    CREATED          STATUS                    PORTS
 hlpf-env-setup-app-1        hlpf-env-setup-app   "docker-entrypoint.s…"   app        12 minutes ago   Up 10 minutes             0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
