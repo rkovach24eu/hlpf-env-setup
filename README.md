@@ -105,3 +105,80 @@ updatedAt   : 2026-03-29T18:57:39.307Z
 ```text
 {"message":"Product #999 not found","error":"Not Found","statusCode":404}
 ```
+
+## Практичне заняття №4 — DTO + class-validator + Pipes
+
+### Структура репозиторію
+
+.
+├── src/
+│   ├── categories/
+│   │   ├── dto/
+│   │   │   ├── create-category.dto.ts
+│   │   │   └── update-category.dto.ts
+│   │   ├── category.entity.ts
+│   │   ├── categories.module.ts
+│   │   ├── categories.service.ts
+│   │   └── categories.controller.ts
+│   ├── products/
+│   │   ├── dto/
+│   │   │   ├── create-product.dto.ts
+│   │   │   └── update-product.dto.ts
+│   │   ├── product.entity.ts
+│   │   ├── products.module.ts
+│   │   ├── products.service.ts
+│   │   └── products.controller.ts
+│   ├── common/
+│   │   └── pipes/
+│   │       └── trim.pipe.ts
+│   ├── migrations/
+│   ├── data-source.ts
+│   ├── main.ts
+│   └── app.module.ts
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+
+---
+
+### Запуск проекту
+
+```bash
+cp .env.example .env
+docker compose up --build
+```
+
+### ТЕСТ 1 — порожнє ім’я категорії
+```text
+{"message":["name must be longer than or equal to 2 characters"],"error":"Bad Request","statusCode":400}
+```
+
+### ТЕСТ 2 — від’ємна ціна продукту
+```text
+{"message":["price must not be less than 0.01"],"error":"Bad Request","statusCode":400}
+```
+
+### ТЕСТ 3 — зайве поле (forbidNonWhitelisted)
+```text
+{"message":["property isAdmin should not exist"],"error":"Bad Request","statusCode":400}
+```
+
+### ТЕСТ 4 — TrimPipe
+```text
+id name    description createdAt               
+-- ----    ----------- ---------               
+ 5 Trimmed             2026-04-26T17:17:46.074Z
+```
+
+### ТЕСТ 5 — валідний продукт
+```text
+id          : 6
+name        : iPhone 16
+description : 
+price       : 999,99
+stock       : 50
+isActive    : True
+category    : @{id=3}
+createdAt   : 2026-04-26T17:20:04.899Z
+updatedAt   : 2026-04-26T17:20:04.899Z
+```
